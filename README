@@ -1,0 +1,6 @@
+Script for manually adjusting the colour temperature with hotkeys
+
+redshift-adjust =5500    Set colour temperature to 5500 K
+redshift-adjust +25      Increase colour temperature by 25 K
+redshift-adjust -25      Decrease colour temperature by 25 K
+
