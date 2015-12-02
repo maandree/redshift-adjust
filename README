@@ -1,6 +1,29 @@
-Script for manually adjusting the colour temperature with hotkeys
+NAME
+	redshift-adjust - Script for manually adjusting the
+	                  colour temperature with hotkeys
 
-redshift-adjust =5500    Set colour temperature to 5500 K
-redshift-adjust +25      Increase colour temperature by 25 K
-redshift-adjust -25      Decrease colour temperature by 25 K
+SYNOPSIS
+	redshift-adjust (-p | ADJUSTMENT)
+
+DESCRIPTION
+	redshift-adjust uses redshift to adjust the colour
+	temperature to either an absolute or a relative
+	colour temperature. If a colour temperature has
+	not been set using redshift-adjust, redshift-adjust
+	will assume that the current colour temperature
+	is 6500 Kelvin.
+
+OPTIONS
+	-p      Print the current colour temperature.
+
+ADJUSTMENTS
+	=TEMP   Set the colour temperature to TEMP Kelvin.
+	+TEMP   Increase the colour temperature by TEMP Kelvin.
+	-TEMP   Decrease the colour temperature by TEMP Kelvin.
+
+RATIONALE
+	See <https://github.com/jonls/redshift/issues/231>.
+
+SEE ALSO
+	redshift(1), analyse-gamma(1), xbindkeys(1)
 
