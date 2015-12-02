@@ -1,0 +1,58 @@
+.TH REDSHIFT-ADJUST 1 REDSHIFT-ADJUST
+.SH NAME
+redshift-adjust \- Script for manually adjusting the colour temperature with hotkeys
+.SH SYNOPSIS
+.BR redshift-adjust
+.RB ( -p \ |
+.IR ADJUSTMENT )
+.SH DESCRIPTION
+.B redshift-adjust
+uses
+.BR redshift (1)
+to adjust the colour temperature to either an absolute or a relative
+colour temperature. If a colour temperature has not been set using
+.BR redshift-adjust ,
+.B redshift-adjust
+will assume that the current colour temperature is 6500 Kelvin.
+.SH OPTIONS
+.TP
+.BR \-p ,\  \-\-print
+Print the current colour temperature.
+.SH ADJUSTMENTS
+.TP
+.BI = TEMP
+Set the colour temperature to
+.I TEMP
+Kelvin.
+.TP
+.BI \+ TEMP
+Increase the colour temperature by
+.I TEMP
+Kelvin.
+.TP
+.BI \- TEMP
+Decrease the colour temperature by
+.I TEMP
+Kelvin.
+.SH RATIONALE
+See <https://github.com/jonls/redshift/issues/231>.
+.SH "SEE ALSO"
+.BR redshift (1),
+.BR analyse-gamma (1),
+.BR xbindkeys (1)
+.PP
+Full documentation available locally via: info \(aq(redshift-adjust)\(aq
+.SH AUTHORS
+Principal author, Mattias Andrée.  See the COPYING file for the full
+list of authors.
+.SH LICENSE
+Copyright \(co 2014, 2015  Mattias Andrée, &a
+.br
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+.br
+This is free software: you are free to change and redistribute it.
+.br
+There is NO WARRANTY, to the extent permitted by law.
+.SH BUGS
+Please report bugs to https://github.com/maandree/redshift-adjust/issues or to
+maandree@member.fsf.org

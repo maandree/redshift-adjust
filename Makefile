@@ -5,35 +5,42 @@
 
 
 # The package path prefix, if you want to install to another root, set DESTDIR to that root
-PREFIX ?= /usr
+PREFIX = /usr
 # The command path excluding prefix
-BIN ?= /bin
+BIN = /bin
 # The resource path excluding prefix
-DATA ?= /share
+DATA = /share
 # The command path including prefix
-BINDIR ?= $(PREFIX)$(BIN)
+BINDIR = $(PREFIX)$(BIN)
 # The resource path including prefix
-DATADIR ?= $(PREFIX)$(DATA)
+DATADIR = $(PREFIX)$(DATA)
 # The generic documentation path including prefix
-DOCDIR ?= $(DATADIR)/doc
+DOCDIR = $(DATADIR)/doc
 # The info manual documentation path including prefix
-INFODIR ?= $(DATADIR)/info
+INFODIR = $(DATADIR)/info
+# The man page documentation path including prefix
+MANDIR = $(DATADIR)/man
+# The man page section 1 path including prefix
+MAN1DIR = $(MANDIR)/man1
 # The license base path including prefix
-LICENSEDIR ?= $(DATADIR)/licenses
+LICENSEDIR = $(DATADIR)/licenses
 
 # The name of the command as it should be installed
-COMMAND ?= redshift-adjust
+COMMAND = redshift-adjust
 # The name of the package as it should be installed
-PKGNAME ?= redshift-adjust
+PKGNAME = redshift-adjust
 
 
 # Build rules
 
 .PHONY: default
-default: command
+default: base
 
 .PHONY: all
-all: command
+all: base
+
+.PHONY: base
+base: command
 
 .PHONY: command
 command:
@@ -42,25 +49,43 @@ command:
 # Install rules
 
 .PHONY: install
-install: install-base
+install: install-base install-man
 
-.PHONY: install
-install-all: install-base
+.PHONY: install-all
+install-all: install-base install-doc
 
 # Install base rules
 
 .PHONY: install-base
-install-base: install-command install-license
+install-base: install-command install-copyright
 
 .PHONY: install-command
 install-command:
 	install -dm755 -- "$(DESTDIR)$(BINDIR)"
 	install -m755 src/redshift-adjust -- "$(DESTDIR)$(BINDIR)/$(COMMAND)"
 
+.PHONY: install-copyright
+install-copyright: install-copying install-license
+
+.PHONY: install-copying
+install-copying:
+	install -dm755 -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)"
+	install -m644 COPYING -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)"
+
 .PHONY: install-license
 install-license:
 	install -dm755 -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)"
-	install -m644 COPYING LICENSE -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)"
+	install -m644 LICENSE -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)"
+
+# Install documentation rules
+
+.PHONY: install-doc
+install-doc: install-man
+
+.PHONY: install-man
+install-man:
+	install -dm755 -- "$(DESTDIR)$(MAN1DIR)"
+	install -m644 doc/man/redshift-adjust.1 -- "$(DESTDIR)$(MAN1DIR)/$(COMMAND).1"
 
 
 # Uninstall rules
@@ -70,6 +95,7 @@ uninstall:
 	-rm -- "$(DESTDIR)$(BINDIR)/$(COMMAND)"
 	-rm -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)/COPYING"
 	-rm -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)/LICENSE"
+	-rm -- "$(DESTDIR)$(MAN1DIR)/$(COMMAND).1"
 	-rmdir -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)"
 
 

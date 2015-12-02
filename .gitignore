@@ -1,7 +1,15 @@
 _/
+/bin/
+/obj/
+\#*\#
 *~
 !.git*
+*.new
 *.bak
 *.swo
 *.swp
+*.info
+*.pdf
+*.dvi
+*.ps
 
