@@ -1,0 +1,105 @@
+\input texinfo   @c -*-texinfo-*-
+
+@c %**start of header
+@setfilename redshift-adjust.info
+@settitle redshift-adjust
+@afourpaper
+@documentencoding UTF-8
+@documentlanguage en
+@finalout
+@c %**end of header
+
+
+@dircategory Ergonomy
+@direntry
+* redshift-adjust: (redshift-adjust).  Script for manually adjusting the colour temperature with hotkeys
+@end direntry
+
+
+@copying
+Copyright @copyright{} 2015 Mattias Andrée
+
+@quotation
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts. A copy of the license is included in the section entitled
+``GNU Free Documentation License''.
+@end quotation
+@end copying
+
+@ifnottex
+@node Top
+@top redshift-adjust -- Script for manually adjusting the colour temperature with hotkeys
+@insertcopying
+@end ifnottex
+
+@titlepage
+@title redshift-adjust
+@subtitle Script for manually adjusting the colour temperature with hotkeys
+@author by Mattias Andrée (maandree)
+
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+@page
+@end titlepage
+
+@contents
+
+
+
+@menu
+* Overview::                        Brief overview of @command{redshift-adjust}.
+* Invoking::                        Executing @command{redshift-adjust}.
+* GNU Free Documentation License::  Copying and sharing this manual.
+@end menu
+
+
+
+@node Overview
+@chapter Overview
+
+@command{redshift-adjust} uses @command{redshift} to adjust
+the colour temperature to either an absolute or a relative
+colour temperature. If a colour temperature has not been set
+using @command{redshift-adjust}, @command{redshift-adjust}
+will assume that the current colour temperature is 6500 Kelvin.
+
+@command{redshift-adjust} keeps track of the current colour
+temperature by writing new colour temperature to a the file
+@file{/tmp/.$@{UID@}.$@{DISPLAY@}.redshift-adjust}. Where
+@env{$@{UID@}} is the user's ID, and @env{$@{DISPLAY@}}
+is the value of the environment varable @env{DISPLAY},
+or an empty string if @env{DISPLAY} is unset.
+
+
+
+@node Invoking
+@chapter Invoking
+
+@command{redshift-adjust} is invoked in one of the following
+ways:
+
+@table @code
+@item redshift-adjust =TEMP
+Set the colour temperature to @code{TEMP} Kelvin.
+@item redshift-adjust +TEMP
+Increase the colour temperature by @code{TEMP} Kelvin.
+@item redshift-adjust -TEMP
+Decrease the colour temperature by @code{TEMP} Kelvin.
+@item redshift-adjust -p
+Print the current colour temperature.
+@end table
+
+@option{--print} can be used instead of @option{-p}.
+
+
+
+@node GNU Free Documentation License
+@appendix GNU Free Documentation License
+@include fdl.texinfo
+
+@bye
+
