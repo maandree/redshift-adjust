@@ -3,32 +3,37 @@
 # redshift-adjust — Script for manually adjusting the colour temperature with hotkeys
 # Copyright © 2014, 2015  Mattias Andrée (maandree@member.fsf.org)
 # Copyright © 2015        "tPenguinLTG"
-# 
+# Copyright © 2019        Arthur Colombini Gusmão
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 set -e
 
 
-file="/tmp/.${UID}.${DISPLAY}.redshift-adjust"
+file_temp="/tmp/.${UID}.${DISPLAY}.redshift-adjust-temp"
+file_bright="/tmp/.${UID}.${DISPLAY}.redshift-adjust-bright"
 
 
 if [ ! $# = 1 ] || [ "${1}" = "-h" ] || [ "${1}" = "--help" ]; then
     cat <<EOF
-$0 =TEMP    Set colour temperature to TEMP K
-$0 +TEMP    Increase colour temperature by TEMP K
-$0 -TEMP    Decrease colour temperature by TEMP K
-$0 -p       Print the current temperature
+$0 t=TEMP    Set colour temperature to TEMP K
+$0 t+TEMP    Increase colour temperature by TEMP K
+$0 t-TEMP    Decrease colour temperature by TEMP K
+$0 b=BRIG    Set brightness to BRIG
+$0 b+BRIG    Increase brightness to BRIG
+$0 b-BRIG    Decrease brightness to BRIG
+$0 -p       Print the current temperature and brightness
 EOF
     if [ $# = 1 ]; then
 	exit 0
@@ -36,22 +41,35 @@ EOF
     exit 1
 fi
 
-if [ ! -e "${file}" ]; then
-    echo 6500 > "${file}"
+if [ ! -e "${file_temp}" ]; then
+    echo 6500 > "${file_temp}"
+fi
+if [ ! -e "${file_bright}" ]; then
+    echo 1.0 > "${file_bright}"
 fi
 
 if [ "${1}" = "-p" ] || [ "${1}" = "--print" ]; then
-    cat "${file}"
+    cat "${file_temp}"
+    cat "${file_bright}"
     exit 0
 fi
 
-
-if [ "${1::1}" = "=" ]; then
-    temperature="${1:1}"
-else
-    temperature=$(( $(cat "${file}") ${1::1} ${1:1} ))
+if [ "${1::1}" = "t" ]; then
+    if [ "${1:1:1}" = "=" ]; then
+        temperature="${1:2}"
+    else
+        temperature=$(( $(cat "${file_temp}") ${1:1:1} ${1:2} ))
+    fi
+    brightness="$(cat "${file_bright}")"
 fi
 
+if [ "${1::1}" = "b" ]; then
+    if [ "${1:1:1}" = "=" ]; then
+        brightness="${1:2}"
+    else
+        brightness=$(echo "$(cat "${file_bright}") ${1:1:1} ${1:2}" | bc )
+    fi
+    temperature="$(cat "${file_temp}")"
+fi
 
-redshift -O $temperature && echo $temperature > "${file}"
-
+redshift -O $temperature -b $brightness && echo $temperature > "${file_temp}" && echo $brightness > "${file_bright}"
