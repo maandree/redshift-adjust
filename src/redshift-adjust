@@ -42,10 +42,14 @@ EOF
 fi
 
 if [ ! -e "${file_temp}" ]; then
-    echo 6500 > "${file_temp}"
+    temperature=$(redshift -p | grep -Pzo "(?<=Color temperature: ).*")
+    temperature=${temperature%?} # remove last char (K)
+    echo $temperature > "${file_temp}"
 fi
 if [ ! -e "${file_bright}" ]; then
-    echo 1.0 > "${file_bright}"
+    brightness=$(redshift -p | grep -Pzo "(?<=Brightness: ).*")
+    echo $brightness > "${file_bright}"
+    $(pkill redshift) # killing redshift prevents default config to override new config
 fi
 
 if [ "${1}" = "-p" ] || [ "${1}" = "--print" ]; then
