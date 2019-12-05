@@ -33,7 +33,7 @@ $0 t-TEMP    Decrease colour temperature by TEMP K
 $0 b=BRIG    Set brightness to BRIG
 $0 b+BRIG    Increase brightness to BRIG
 $0 b-BRIG    Decrease brightness to BRIG
-$0 -p       Print the current temperature and brightness
+$0 -p        Print the current temperature and brightness
 EOF
     if [ $# = 1 ]; then
 	exit 0
@@ -49,7 +49,7 @@ fi
 if [ ! -e "${file_bright}" ]; then
     brightness=$(redshift -p | grep -Pzo "(?<=Brightness: ).*")
     echo $brightness > "${file_bright}"
-    $(pkill redshift) # killing redshift prevents default config to override new config
+    pkill '^redshift$' # killing redshift prevents the default config from overriding the new one
 fi
 
 if [ "${1}" = "-p" ] || [ "${1}" = "--print" ]; then
