@@ -42,12 +42,11 @@ EOF
 fi
 
 if [ ! -e "${file_temp}" ]; then
-    temperature=$(redshift -p | grep -Pzo "(?<=Color temperature: ).*")
-    temperature=${temperature%?} # remove last char (K)
+    temperature=$(redshift -p | sed -n 's/Color temperature: \(.*\)K/\1/p')
     echo $temperature > "${file_temp}"
 fi
 if [ ! -e "${file_bright}" ]; then
-    brightness=$(redshift -p | grep -Pzo "(?<=Brightness: ).*")
+    brightness=$(redshift -p | sed -n 's/Brightness: \(.*\)/\1/p')
     echo $brightness > "${file_bright}"
     pkill '^redshift$' # killing redshift prevents the default config from overriding the new one
 fi
