@@ -52,8 +52,8 @@ if [ ! -e "${file_bright}" ]; then
 fi
 
 if [ "${1}" = "-p" ] || [ "${1}" = "--print" ]; then
-    cat "${file_temp}"
-    cat "${file_bright}"
+    echo "Temperature: $(cat ${file_temp})"
+    echo "Brightness: $(cat ${file_bright})"
     exit 0
 fi
 
