@@ -11,19 +11,21 @@ DESCRIPTION
 	colour temperature. If a colour temperature has
 	not been set using redshift-adjust, redshift-adjust
 	will assume that the current colour temperature
-	is 6500 Kelvin.
+	is 6500 Kelvin and the brightness is 1.0.
 
 OPTIONS
 	-p      Print the current colour temperature.
 
 ADJUSTMENTS
-	=TEMP   Set the colour temperature to TEMP Kelvin.
-	+TEMP   Increase the colour temperature by TEMP Kelvin.
-	-TEMP   Decrease the colour temperature by TEMP Kelvin.
+	t=TEMP   Set the colour temperature to TEMP Kelvin.
+	t+TEMP   Increase the colour temperature by TEMP Kelvin.
+	t-TEMP   Decrease the colour temperature by TEMP Kelvin.
+	b=BRIG   Set the brightness to BRIG.
+	b+BRIG   Increase the brightness by BRIG.
+	b-BRIG   Decrease the brightness by BRIG.
 
 RATIONALE
 	See <https://github.com/jonls/redshift/issues/231>.
 
 SEE ALSO
 	redshift(1), analyse-gamma(1), xbindkeys(1)
-
