@@ -53,5 +53,5 @@ else
 fi
 
 
-redshift -O $temperature && echo $temperature > "${file}"
+redshift -P -O $temperature && echo $temperature > "${file}"
 
